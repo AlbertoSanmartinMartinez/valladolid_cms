@@ -204,7 +204,6 @@ MEDIAFILES_DIRS = [
 MEDIA_LOCATION = 'media'
 MEDIAFILES_STORAGE = 'cms.files.MediaStorage'
 MEDIA_URL='https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, MEDIA_LOCATION)
-"""
 # ********** RESTFRAMEWORKS **********
 
 REST_FRAMEWORK = {

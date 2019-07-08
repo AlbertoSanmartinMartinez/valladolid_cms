@@ -1,1 +1,1 @@
-web: gunicorn salamantica.wsgi --log-file -
+web: gunicorn valladolid_movil.wsgi --log-file -

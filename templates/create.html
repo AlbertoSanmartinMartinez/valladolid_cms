@@ -1,0 +1,50 @@
+
+{% load static %}
+{% load cms_tags %}
+{% load widget_tweaks %}
+
+
+<!-- CKeditor -->
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+{% block javascript %}
+  <script type="text/javascript">
+    $( function() {
+      $( ".timepicker" ).timepicker({
+        timeFormat: 'H:i',
+      });
+    });
+  </script>
+{% endblock javascript %}
+
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% get_url urls 'create' as element_create %}
+    <form method="POST" action="{% url element_create %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        {% if form %}
+          {% include 'form.html' %}
+        {% endif %}
+
+        <!-- Formset Schedule -->
+        {% if formset %}
+          {% include 'formset.html' %}
+        {% endif %}
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-primary">Crear</button>
+      </div>
+    </form>
+  </div>
+</div>

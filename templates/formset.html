@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+
+<div id="period-schedule-formset">
+<input type="hidden" name="index-forms" value="0" id="index-forms">
+{{ formset.management_form }}
+{% for form in formset %}
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+  <div class="row period-schedule-form-class" id="period-schedule-form-{{ forloop.counter0 }}">
+    <div class="col-11">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            {{ form.dia.label}} {{ form.dia|add_class:"form-control" }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            {{ form.inicio.label }} {{ form.inicio|add_class:"form-control" }}
+          </div>
+        </div>
+          <div class="col-6">
+          <div class="form-group">
+            {{ form.fin.label }} {{ form.fin|add_class:"form-control" }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1" style="padding-top: 20px; padding-bottom: 15px;">
+      <button type="button" class="btn btn-outline-danger delete-form" data-target="{{ forloop.counter0 }}" style="height: 100%;">-</button>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+<div class="row">
+<div class="col">
+  <button type="button" class="btn btn-outline-primary add-form" style="width: 100%;">+</button>
+</div>
+</div>

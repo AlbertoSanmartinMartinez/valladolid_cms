@@ -1,0 +1,12 @@
+
+{% load embed_video_tags %}
+
+{% if element.video %}
+  <p><b>Vídeo:</b></p>
+  {% video element.video 'medium' %}
+{% elif videos %}
+  <p><b>Vídeos:</b></p>
+  {% for item in videos %}
+    {% video item.video '300x300' %}
+  {% endfor %}
+{% endif %}

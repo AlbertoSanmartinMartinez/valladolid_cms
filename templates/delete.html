@@ -1,0 +1,32 @@
+
+{% load cms_tags %}
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+
+    {% get_url urls 'delete' as element_delete %}
+    <form method="POST" action="{% url element_delete element.id %}">
+      {% csrf_token %}
+
+    <div class="modal-header">
+      <h4 class="modal-title">{{ title }}</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+
+      <p>¿ Seguro que quieres borrarlo ?</p>
+      {% include 'form.html' %}
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-danger">
+        Borrar
+      </button>
+    </div>
+
+    </form>
+
+  </div>
+</div>

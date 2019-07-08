@@ -1,0 +1,9 @@
+
+{% autoescape off %}
+
+Hola {{ user.username }}:
+
+Haz click en el link para confirmar tu registro.
+{{ domain }}{% url 'cms:activation' uidb64=uid token=token %}
+
+{% endautoescape %}

@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div">
+        <img class="img-fluid" src="{% static 'img/valladolid_banner.jpg' %}" alt="">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        <h2 class="text-center">CMS</h2>
+				<p class="text-center">Software de gestión de contenido. Para organizar y actualizar el contenido de la aplicación móvil.</p>
+				<p class="text-center"><a class="btn btn-default" target="_blank" href="https://cg3innova.es/">Ver detalles &raquo;</a></p>
+			</div>
+			<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+				<h2 class="text-center">APP</h2>
+				<p class="text-center">Dar a conocer todos los servicios de Salamanca Móvil a los usuarios./p>
+        <p class="text-center"><a class="btn btn-default" target="_blank" href="https://cg3innova.es/">Ver detalles &raquo;</a></p>
+			</div>
+			<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+				<h2 class="text-center">WEB</h2>
+				<p class="text-center">Las mismas funcionalidades y características que la app pero a través del navegador.</p>
+				<p class="text-center"><a class="btn btn-default" target="_blank" href="https://cg3innova.es/">Ver detalles &raquo;</a></p>
+			</div>
+		</div>
+    <div class="row">
+    </div>
+	</div>
+</div>
+<hr>
+
+{% endblock content %}

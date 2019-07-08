@@ -1,0 +1,56 @@
+
+{% load static %}
+{% load cms_tags %}
+
+{% block javascript %}
+
+  <script type="text/javascript">
+    $( function() {
+      $( ".datepicker" ).datepicker({
+        firstDay: 1,
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+        dateFormat: 'dd/mm/yy',
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    $( function() {
+      console.log("funcion");
+      $( ".timepicker" ).timepicker({
+        timeFormat: 'HH:MM p',
+      });
+    });
+  </script>
+{% endblock javascript %}
+
+<div class="modal-dialog modal-lg">
+  <div class="modal-content">
+    {% get_url urls 'filter' as element_filter %}
+    <form method="POST" action="{% url element_filter %}">
+      {% csrf_token %}
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        {% include 'form.html' %}
+
+      </div>
+      <div class="modal-footer">
+        {% get_url urls 'list' as element_list %}
+        <a href="{% url element_list %}">
+          <button type="button" class="btn btn-outline-danger">Borrar Filtros</button>
+        </a>
+        <button type="submit" class="btn btn-outline-primary">Filtrar</button>
+      </div>
+    </form>
+  </div>
+</div>

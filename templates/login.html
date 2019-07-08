@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3>Acceso a usuarios</h3>
+
+        <form method="POST" action="{% url 'cms:custom_login' %}">
+          {% csrf_token %}
+
+          {% include 'form.html' %}
+
+          <a href="{% url 'cms:password_reset' %}" class="btn btn-link btn-small">¿Olvidaste tu contraseña?</a>
+          <button type="submit" class="btn btn-outline-primary">Acceder</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+{% endblock content %}

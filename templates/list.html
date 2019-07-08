@@ -1,0 +1,192 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+{% load cms_tags %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+  <!-- Element List -->
+  <div class="row custom_row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-6">
+                <h5>{{ title }}</h5><!--<p class="paginator">{{ elements|length }}</p>-->
+              </div>
+              <div class="col-6">
+                {% get_url urls 'create' as element_create %}
+                <button type="button" onclick="return openCustomModal('{% url element_create %}')" class="btn btn-outline-primary float-right">
+                  <span class="fas fa-plus"></span>
+                </button>
+                {% get_url urls 'filter' as element_filter %}
+                <button type="button" onclick="return openCustomModal('{% url element_filter %}')" class="btn btn-outline-primary float-right">
+                  <span class="fas fa-search"></span>
+                </button>
+                <!--{% get_url urls 'scrap' as element_scrap %}
+                <button type="button" onclick="return openCustomModal('{% url element_scrap %}')" class="btn btn-outline-primary float-right">
+                  <span class="fas fa-hammer"></span>
+                </button>-->
+                <!--{% get_url urls 'upload' as element_upload %}
+                <button type="button" onclick="return openCustomModal('{% url element_upload %}')"class="btn btn-outline-primary float-right">
+                  <span class="fas fa-file-upload"></span>
+                </button>-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body custom-card-body">
+          {% if elements|length > 0 %}
+            <div class="table-responsive">
+              <table class="table table-striped table-hover custom-table">
+                <thead class="thead-light">
+                  <tr>
+                    {% for field in fields %}
+                      <th class="text-center">
+                        {{ field.verbose_name }}
+
+                        <div class="dropdown">
+                          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                          </button>
+                          {% get_url urls 'list' as element_list %}
+                          <ul class="dropdown-menu">
+                            <li><a href="{% url element_list %}?page={{page}}&order={{ field.name }}{% build_filter_url filter_dict %}">asc</a></li>
+                            <li><a href="{% url element_list %}?page={{page}}&order=-{{ field.name }}{% build_filter_url filter_dict %}">desc</a></li>
+                          </ul>
+                        </div>
+
+                      </th>
+                    {% endfor %}
+                    <th class="text-center">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for element in elements %}
+                    <tr>
+                      {% for value in element.fields_values %}
+                        <td class="align-middle text-center">{{ value }}</td>
+                      {% endfor %}
+                      <td class="text-center">
+                        <div class="dropdown">
+                          <a href="btn btn-secondary" id="option_button" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fas fa-bars"></span>
+                          </a>
+                          <div class="dropdown-menu" arial-labelledby="option_button">
+                            {% get_url urls 'view' as element_view %}
+                            <a class="dropdown-item">
+                              <button type="button" onclick="return openCustomModal('{% url element_view element.id %}')" class="btn btn-outline-primary float-right btn-sm">
+                                Ver
+                                <span class="fas fa-eye"></span>
+                              </button>
+                            </a>
+                            {% get_url urls 'update' as element_update %}
+                            <a class="dropdown-item">
+                              <button type="button" onclick="return openCustomModal('{% url element_update element.id %}')" class="btn btn-outline-primary float-right btn-sm">
+                                Editar
+                                <span class="fas fa-pencil-alt"></span>
+                              </button>
+                            </a>
+                            {% get_url urls 'delete' as element_delete %}
+                            <a class="dropdown-item">
+                              <button type="button" onclick="return openCustomModal('{% url element_delete element.id %}')" class="btn btn-outline-primary float-right btn-sm">
+                                Borrar
+                                <span class="fas fa-trash"></span>
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p>No hay elementos ...</p>
+          {% endif %}
+        </div>
+        <div class="card-footer">
+
+          <!-- Pagination -->
+          {% get_url urls 'list' as element_list %}
+          <ul class="pagination justify-content-center">
+            {% if elements.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="{% url element_list %}?page=1&order={{order}}{% build_filter_url filter_dict %}">
+                  <!--<button type="button" class="btn btn-outline-primary float-righ btn-sm">
+                    <span class="fas fa-angle-double-left"></span>
+                  </button>-->
+                  <<
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="{% url element_list %}?page={{ elements.previous_page_number }}&order={{order}}{% build_filter_url filter_dict %}">
+                  <!--<button type="button" class="btn btn-outline-primary float-right btn-sm">
+                    <span class="fas fa-angle-left"></span>
+                  </button>-->
+                  <
+                </a>
+              </li>
+            {% endif %}
+
+              <li class="page-item">
+                <a class="page-link" href="{% url element_list %}?page={{ item }}&order={{order}}{% build_filter_url filter_dict %}">
+                  <!--<button type="button" class="btn btn-outline-primary float-right btn-sm">
+                    {{ elements.number }}
+                  </button>-->
+                  {{ elements.number }}
+                </a>
+              </li>
+
+            {% if elements.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="{% url element_list %}?page={{ elements.next_page_number }}&order={{order}}{% build_filter_url filter_dict %}">
+                  <!--<button type="button" class="btn btn-outline-primary float-right btn-sm">
+                    <span class="fas fa-angle-right"></span>
+                  </button>-->
+                  >
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="{% url element_list %}?page={{ elements.paginator.num_pages }}&order={{order}}{% build_filter_url filter_dict %}">
+                  <!--<button type="button" class="btn btn-outline-primary float-right btn-sm">
+                    <span class="fas fa-angle-double-right"></span>
+                  </button>-->
+                  >>
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+
+          <!--<ul class="pagination justify-content-center">
+            {% for item in elements.paginator.page_range %}
+              {% if elements.number != item %}
+                <li class="page-item">
+                  <a class="page-link" href="{% url element_list %}?page={{ item }}&order={{order}}{% build_filter_url filter_dict %}">{{ item }}</a>
+                </li>
+              {% else %}
+                <li class="page-item active">
+                  <a class="page-link" href="{% url element_list %}?page={{ item }}&order={{order}}{% build_filter_url filter_dict %}">{{ item }} <span class="sr-only">(current)</span></a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>-->
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="custom-modal" role="dialog">
+</div>
+
+{% endblock content %}

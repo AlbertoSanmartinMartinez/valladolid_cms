@@ -26,17 +26,17 @@ ALLOWED_HOSTS = [
 
 # ********** MAIL SERVER CONFIG **********
 
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_HOST_USER = 'valladolidmovil@gmail.com'
-#EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
-#EMAIL_PORT = 587
-#EMAIL_USE_TLS = True
-
-EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+#EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 SENDGRID_PASSWORD = os.environ.get("SENDGRID_PASSWORD")
 SENDGRID_USERNAME = os.environ.get("SENDGRID_USERNAME")
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = SENDGRID_USERNAME #'valladolidmovil@gmail.com'
+EMAIL_HOST_PASSWORD = SENDGRID_PASSWORD #os.environ.get('MAIL_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # ********** SESSION CONFIG **********
 

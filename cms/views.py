@@ -2923,23 +2923,8 @@ def user_create(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-
-            message = Mail(
-                from_email = from_email,
-                to_emails = to_email,
-                subject = mail_subject,
-                html_content = message
-            )
-
-            #send_mail(mail_subject, message, from_email, to_email, fail_silently=False,)
-            try:
-                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-                response = sg.send(message)
-                print(response.status_code)
-                print(response.body)
-                print(response.headers)
-            except Exception as e:
-                print(e.message)
+            
+            send_mail(mail_subject, message, from_email, to_email, fail_silently=False,)
 
             return redirect('cms:user_list')
         else:

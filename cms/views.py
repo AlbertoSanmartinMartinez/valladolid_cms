@@ -129,13 +129,13 @@ def password_reset(request):
                     print("user active")
 
                     current_site = get_current_site(request)
-                    subject = 'Restablecer contraseña - Salamanca CMS'
+                    subject = 'Restablecer contraseña - Valladolid CMS'
                     from_email = settings.EMAIL_HOST_USER
                     to_email = [user.email,]
                     message = render_to_string('email_password_reset.txt', {
                         'user': user,
                         'domain': current_site.domain,
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'token': account_activation_token.make_token(user),
                     })
                     send_mail(subject, message, from_email, to_email, fail_silently=False,)
@@ -196,13 +196,13 @@ def password_reset_form(request, uidb64=None, token=None):
                     user.save()
 
                 current_site = get_current_site(request)
-                subject = 'Confirmación - Salamanca CMS'
+                subject = 'Confirmación - Valladolid CMS'
                 from_email = settings.EMAIL_HOST_USER
                 to_email = [user.email,]
                 message = render_to_string('email_activation.txt', {
                     'user': user,
                     'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token': account_activation_token.make_token(user),
                 })
                 send_mail(subject, message, from_email, to_email, fail_silently=False,)
@@ -2910,13 +2910,17 @@ def user_create(request):
             )
 
             current_site = get_current_site(request)
-            mail_subject = 'Restablecer contraseña - Salamanca CMS'
+            print(current_site)
+            mail_subject = 'Restablecer contraseña - Valladolid CMS'
             from_email = settings.EMAIL_HOST_USER
+            print(from_email)
             to_email = [user.email,]
+            print(to_email)
+            print(user.pk)
             message = render_to_string('email_password_reset.txt', {
                 'user': user,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
             send_mail(mail_subject, message, from_email, to_email, fail_silently=False,)
@@ -3927,9 +3931,9 @@ def rest_place_list(request):
 
     else:
         if category_id == 'undefined':
-            elements = cms_models.Lugar.objects.filter(estado='Activo') #.order_by('id')
+            elements = cms_models.Lugar.objects.filter(estado='Activo').order_by('destacado', 'prioridad')
         else:
-            elements = cms_models.Lugar.objects.filter(categoria_id=category_id, estado='Activo')
+            elements = cms_models.Lugar.objects.filter(categoria_id=category_id, estado='Activo').order_by('destacado', 'prioridad')
 
     elements = cms_serializers.PlaceSerializer(elements, context={"request": request}, many=True)
 

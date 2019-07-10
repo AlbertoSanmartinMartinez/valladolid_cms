@@ -15,9 +15,10 @@ from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
 
-
 DEBUG = config('DEBUG', default=False, cast=bool)
-#DEBUG =
+#DEBUG = True
+
+SITE_ID = 1
 
 ALLOWED_HOSTS = [
     '*',
@@ -25,9 +26,10 @@ ALLOWED_HOSTS = [
 
 # ********** MAIL SERVER CONFIG **********
 
+EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.salamancamovil.com'
-EMAIL_HOST_USER = 'contacto@salamancamovil.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'valladolidmovil@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',

@@ -2891,6 +2891,9 @@ def user_create(request):
     """
     """
 
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail
+
     print("user create function")
 
     title = 'Nuevo Usuario'
@@ -2910,20 +2913,33 @@ def user_create(request):
             )
 
             current_site = get_current_site(request)
-            print(current_site)
             mail_subject = 'Restablecer contraseña - Valladolid CMS'
             from_email = settings.EMAIL_HOST_USER
-            print(from_email)
             to_email = [user.email,]
-            print(to_email)
-            print(user.pk)
+
             message = render_to_string('email_password_reset.txt', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            send_mail(mail_subject, message, from_email, to_email, fail_silently=False,)
+
+            message = Mail(
+                from_email = from_email,
+                to_emails = to_email,
+                subject = mail_subject,
+                html_content = message
+            )
+
+            #send_mail(mail_subject, message, from_email, to_email, fail_silently=False,)
+            try:
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(e.message)
 
             return redirect('cms:user_list')
         else:

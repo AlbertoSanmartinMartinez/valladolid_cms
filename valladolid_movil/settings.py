@@ -30,14 +30,13 @@ ALLOWED_HOSTS = [
 #EMAIL_HOST = 'smtp.gmail.com'
 #EMAIL_HOST_USER = 'valladolidmovil@gmail.com'
 #EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
-#SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
 #EMAIL_PORT = 587
 #EMAIL_USE_TLS = True
 
 EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
-SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
-SENDGRID_PASSWORD = os.environ["SENDGRID_PASSWORD"]
-SENDGRID_USERNAME = os.environ["SENDGRID_USERNAME"]
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_PASSWORD = os.environ.get("SENDGRID_PASSWORD")
+SENDGRID_USERNAME = os.environ.get("SENDGRID_USERNAME")
 
 # ********** SESSION CONFIG **********
 
